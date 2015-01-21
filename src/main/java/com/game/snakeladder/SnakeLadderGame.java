@@ -80,10 +80,7 @@ public class SnakeLadderGame {
 					break;
 				} 
 			}
-			
-			
 		}
-			
 	}
 	
 	/**
