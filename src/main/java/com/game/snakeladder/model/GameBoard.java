@@ -42,7 +42,7 @@ public class GameBoard {
 	 * 
 	 * @param rows 				   Represents number of rows in game board.
 	 * @param columns 			   Represents number of columns in game board.
-	 * @param snakeLadderPositions Represents the snake and ladder position on the map.
+	 * @param snakeLadderPositions Represents the snake and ladder position on the game board.
 	 */
 	
 	public GameBoard(final Integer rows, final Integer columns,List<SnakeLadderPosition> snakeLadderPositions) {
@@ -72,18 +72,18 @@ public class GameBoard {
 	/**
 	 * Represents the winning point on the board.
 	 * 
-	 * @return Integer represents winning point.
+	 * @return Integer represents winning position.
 	 */
 	public Integer getWinningPosition() {
 		return rows * columns;
 	}
 	
 	/**
-	 * This method is used to check snake exists or not on the current position. If it does not it will return null.
+	 * This method is used to check snake or ladder exists or not on the current position. If it does not it will return null.
 	 * 
 	 * @param currentPosition Represents the current position of the player.
 	 * 
-	 * @return SnakePosition if snake exits at current position it will return SnakePosition object otherwise it will return null.
+	 * @return SnakePosition if snake or ladder exits at current position it will return SnakePosition object otherwise it will return null.
 	 */
 	public SnakeLadderPosition checkSnakeOrLadderExistsOnCurrentPosition (Integer currentPosition) {
 		return snakeLadderPositionMap.get(currentPosition);
@@ -92,7 +92,7 @@ public class GameBoard {
 	/**
 	 * This method is used put the snakes on the board.
 	 * 
-	 * @param snakeLadderPositions 	Represents list of the snakes and ladder position on the board
+	 * @param snakeLadderPositions 	Represents list of the snake and ladder positions on the board
 	 */
 	private void setSnakeAndLadderPosition(List<SnakeLadderPosition> snakeLadderPositions) {
 		if (snakeLadderPositions != null && snakeLadderPositions.size() > 0) {

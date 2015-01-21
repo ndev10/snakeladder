@@ -86,9 +86,8 @@ public class SnakeLadderGame {
 	/**
 	 * This method is used to move the player on the board based on dice number.
 	 * 
-	 * @param gameBoard  	   Represent the game board.
-	 * @param playerName	   Represents the player name.
-	 * @param currentDiceValue Represents the current dice values.
+	 * @param currentPlayerPosition	   Represents the current position of the player.
+	 * @param currentDiceValue 		   Represents the current dice values.
 	 * 
 	 * @return new position of the player.
 	 */
@@ -114,7 +113,7 @@ public class SnakeLadderGame {
 	/**
 	 * This method is used to create the players with their current position.
 	 * 
-	 * @param playerNames
+	 * @param playerNames Represents the player names.
 	 */
 	private void intializePlayerPositions(Set<String> playerNames){
 		if (playerNames == null || playerNames.size() < 2) {

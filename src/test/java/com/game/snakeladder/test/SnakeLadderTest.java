@@ -22,10 +22,13 @@ import com.game.snakeladder.model.SnakeLadderPosition;
 public class SnakeLadderTest {
 
 	/**
-	 * Represents valid list of snake positions.
+	 * Represents valid list of snake or ladder positions.
 	 */
 	private static List<SnakeLadderPosition> snakeLadderPositions = new ArrayList<SnakeLadderPosition>();
 	
+	/**
+	 * Represents the player names.
+	 */
 	private static Set<String> playerNames = new HashSet<String>();
 
 	/**
