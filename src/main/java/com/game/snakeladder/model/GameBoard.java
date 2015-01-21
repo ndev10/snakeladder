@@ -5,10 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.game.snakeladder.constant.GameEntityEnum;
-import com.game.snakeladder.exception.SnakeLadderException;
-import com.game.snakeladder.rule.SnakeLadderRules;
-
 /**
  * This class represents  the Snake and Ladder Game Board.
  * 
@@ -28,37 +24,32 @@ public class GameBoard {
 	private Integer columns;
 	
 	/**
-	 * Represents the all snake positions on the board.
+	 * Represents the  snake and ladder positions on the board.
 	 */
-	private Map<Integer,SnakePosition> snakePositionMap = new HashMap<Integer, SnakePosition>();
+	private Map<Integer,SnakeLadderPosition> snakeLadderPositionMap = new HashMap<Integer, SnakeLadderPosition>();
 	
 	/**
-	 * Represents the all ladder positions on the board.
+	 * Constructs default game board.
 	 */
-	private Map<Integer,LadderPosition> ladderPositionMap = new HashMap<Integer, LadderPosition>();
+	public GameBoard() {
+		this.rows = 10;
+		this.columns = 10;
+		setDefaultSnakeAndLadderPositions();
+	}
 	
 	/**
-	 * This list is used to validate that snake end point is already defined as a start point or end point.
-	 */
-	private List<Integer> snakeEndPoints = new ArrayList<Integer>();
-	
-	/**
-	 * This list is used to validate that ladder end point is already defined as a start point or end point.
-	 */
-	private List<Integer> ladderEndpPoints = new ArrayList<Integer>();
-
-	/**
-	 * Constructs Game board.
+	 * Constructs Game board with configuration.
 	 * 
-	 * @param rows represents number of rows in game board.
-	 * @param columns represents number of columns in game board.
+	 * @param rows 				   Represents number of rows in game board.
+	 * @param columns 			   Represents number of columns in game board.
+	 * @param snakeLadderPositions Represents the snake and ladder position on the map.
 	 */
 	
-	public GameBoard(final Integer rows, final Integer columns) {
+	public GameBoard(final Integer rows, final Integer columns,List<SnakeLadderPosition> snakeLadderPositions) {
 		this.rows = rows;
 		this.columns = columns;
+		setSnakeAndLadderPosition(snakeLadderPositions);
 	}
-
 	
 	/**
 	 * Getter for rows.
@@ -83,80 +74,8 @@ public class GameBoard {
 	 * 
 	 * @return Integer represents winning point.
 	 */
-	public Integer getWinningPointOnBoard() {
+	public Integer getWinningPosition() {
 		return rows * columns;
-	}
-	
-	/**
-	 * This method is used to print Game board.The current position of the player will be identified by [@].
-	 * 
-	 * @param currentLocation represents the current position of the player.
-	 */
-	public void printGameBoard(int currentLocation) {
-		
-		int totalRows = getRows();
-		int totalColumns = getColumns();
-		
-		int maxCount = getWinningPointOnBoard();
-
-		boolean notFirstRun = false;
-		int iterationCount = -1;
-		
-		System.out.println("\nGameBaord Current State :::: \n ");
-		while (maxCount > 0) {
-			for (int row = totalRows ; row > 0 ; row--) {
-				if (maxCount % totalColumns  == 0 && notFirstRun) {
-					System.out.print("\n"); 
-					 if (iterationCount == -1) {
-						 maxCount = maxCount - (totalColumns - 1);
-						 iterationCount = 1;
-					 } else {
-						 maxCount = maxCount - totalColumns;
-						 iterationCount = -1;
-					 }
-				}
-				for (int column = totalColumns; column > 0 ; column--) {
-					 if (maxCount == currentLocation) {
-						 System.out.print("[@]\t");
-					 } else {
-						 System.out.print(maxCount + "\t");
-					 }
-					 maxCount = maxCount + iterationCount;
-				}
-				 if (iterationCount == 1) {
-					 maxCount = maxCount - 1;
-				 }
-				notFirstRun = true;
-				
-			}
-			
-			maxCount = 0;
-		}
-	}
-	
-	/**
-	 * This method is used put the snakes on the board.
-	 * 
-	 * @param snakePositions 		Represents list of the snakes position on the board
-	 * @throws SnakeLadderException Thrown when snake position already exists.
-	 */
-	public void setSnakesToGameBoard(List<SnakePosition> snakePositions) throws SnakeLadderException {
-		if (snakePositions != null && snakePositions.size() > 0) {
-			System.out.println("\n\n @~~~~~~~~~~~~~~ Start Setting Snakes on Board ~~~~~~~~~~~~~~@ ");
-			for (SnakePosition snakePosition : snakePositions) {
-				SnakeLadderRules.validateSnakePosition(snakePosition, getWinningPointOnBoard());
-				SnakeLadderRules.checkPositionAlreadyExistsOnGameBoard(snakePosition, ladderPositionMap, ladderEndpPoints, GameEntityEnum.LADDER);
-				SnakeLadderRules.checkPositionAlreadyExistsOnGameBoard(snakePosition, snakePositionMap,snakeEndPoints, GameEntityEnum.SNAKE);
-				
-				snakePositionMap.put(snakePosition.getStartPoint(), snakePosition);
-				snakeEndPoints.add(snakePosition.getEndPoint());
-				
-				System.out.println(snakePosition);
-			}
-			System.out.println("@~~~~~~~~~~~~~~ End Setting Snakes on Board ~~~~~~~~~~~~~~@");
-		} else {
-			System.out.println("\n\n No Snakes has been added to Game");
-		}
 	}
 	
 	/**
@@ -166,59 +85,47 @@ public class GameBoard {
 	 * 
 	 * @return SnakePosition if snake exits at current position it will return SnakePosition object otherwise it will return null.
 	 */
-	public SnakePosition checkSnakePositionExistsOnCurrentPosition (Integer currentPosition) {
-		return snakePositionMap.get(currentPosition);
+	public SnakeLadderPosition checkSnakeOrLadderExistsOnCurrentPosition (Integer currentPosition) {
+		return snakeLadderPositionMap.get(currentPosition);
 	}
 	
 	/**
-	 * This method is used to set the Ladders on the Game board.
+	 * This method is used put the snakes on the board.
 	 * 
-	 * @param ladderPositions 		Represents the list of ladders position on the board.
-	 * @throws SnakeLadderException Thrown when ladder position already exists.
+	 * @param snakeLadderPositions 	Represents list of the snakes and ladder position on the board
 	 */
-	public void setLaddersToGameBoard(List<LadderPosition> ladderPositions) throws SnakeLadderException {
-		if (ladderPositions != null && ladderPositions.size() > 0) {
-			System.out.println("\n\n |-------------| Start Setting Ladders on Board |-------------|");
-			for (LadderPosition ladderPositon : ladderPositions) {
-				SnakeLadderRules.validateLadderPosition(ladderPositon, getWinningPointOnBoard());
-				SnakeLadderRules.checkPositionAlreadyExistsOnGameBoard(ladderPositon, snakePositionMap, snakeEndPoints, GameEntityEnum.SNAKE);
-				SnakeLadderRules.checkPositionAlreadyExistsOnGameBoard(ladderPositon, ladderPositionMap, ladderEndpPoints, GameEntityEnum.LADDER);
-				
-				ladderPositionMap.put(ladderPositon.getStartPoint(), ladderPositon);
-				ladderEndpPoints.add(ladderPositon.getEndPoint());
-				
-				System.out.println(ladderPositon);
+	private void setSnakeAndLadderPosition(List<SnakeLadderPosition> snakeLadderPositions) {
+		if (snakeLadderPositions != null && snakeLadderPositions.size() > 0) {
+			for (SnakeLadderPosition snakeLadderPosition : snakeLadderPositions) {
+				snakeLadderPositionMap.put(snakeLadderPosition.getStartPoint(), snakeLadderPosition);
 			}
-			System.out.println("|-------------| End Setting Ladders on Board |-------------| \n\n");
-		} else {
-			System.out.println("\n No Ladders has been added to Game");
 		}
 	}
 	
 	/**
-	 *  This method is used to check ladder exists or not on the current position. If it does not it will return null.
-	 *  
-	 * @param currentPosition Represents the current position of the player.
+	 * This method is used to set the default snakes and ladder to the gameboard.
 	 * 
-	 * @return LadderPosition If snake exits at current position it will return LadderPosition object otherwise it will return null.
 	 */
-	public LadderPosition checkLadderPositionExistsOnCurrentPosition(Integer currentPosition) {
-		return ladderPositionMap.get(currentPosition);
-	}
-	
-	/**
-	 * Validation for game board rows and columns.
-	 * 
-	 *  @throws SnakeLadderException Thrown when rows and columns  are null or negative.
-	 */
-	public void validateGameBoard() throws SnakeLadderException {
-		if (rows == null || columns == null) {
-			throw new SnakeLadderException("Game Boadr Metrices should not be NULL.");
-		}
+	private void setDefaultSnakeAndLadderPositions() {
+		List<SnakeLadderPosition> snakeLadderPositions = new ArrayList<SnakeLadderPosition>();
 		
-		if (rows < 0 || columns < 0) {
-			throw new SnakeLadderException("Gme Board Metrices should not be Negative.");
-		}
+		snakeLadderPositions.add(new SnakeLadderPosition(17, 7));
+		snakeLadderPositions.add(new SnakeLadderPosition(54, 34));
+		snakeLadderPositions.add(new SnakeLadderPosition(62, 19));
+		snakeLadderPositions.add(new SnakeLadderPosition(64, 60));
+		snakeLadderPositions.add(new SnakeLadderPosition(87, 24));
+		snakeLadderPositions.add(new SnakeLadderPosition(93, 73));
+		snakeLadderPositions.add(new SnakeLadderPosition(95, 75));
+		
+		snakeLadderPositions.add(new SnakeLadderPosition(4,14));
+		snakeLadderPositions.add(new SnakeLadderPosition(9,31));
+		snakeLadderPositions.add(new SnakeLadderPosition(20,38));
+		snakeLadderPositions.add(new SnakeLadderPosition(28,84));
+		snakeLadderPositions.add(new SnakeLadderPosition(40,59));
+		snakeLadderPositions.add(new SnakeLadderPosition(51,67));
+		snakeLadderPositions.add(new SnakeLadderPosition(71,91));
+		
+		setSnakeAndLadderPosition(snakeLadderPositions);
 	}
 
 }
