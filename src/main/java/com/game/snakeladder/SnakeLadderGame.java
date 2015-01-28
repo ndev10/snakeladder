@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.game.snakeladder.model.GameBoard;
-import com.game.snakeladder.model.SnakeLadderPosition;
 
 /**
  * This class represents the Game of the Snake and Ladder.
@@ -40,13 +39,12 @@ public class SnakeLadderGame {
 	/**
 	 * Constructs the Game with configuration.
 	 * 
-	 * @param gameBoard       Represents the game board.
-	 * @param playerNames	  Represents the player names.
-	 * @param snakePositions  Represents the snake positions on the board.
-	 * @param ladderPositions Represents the ladder positions on the board.
+	 * @param gameBoard       		 Represents the game board.
+	 * @param playerNames	  		 Represents the player names.
+	 * @param snakeLadderPositionMap Represents the snake and ladder positions on the board.
 	 */
-	public SnakeLadderGame(Integer rows,Integer columns, Set<String> playerNames,List<SnakeLadderPosition> snakeLadderPositions) {
-		gameBoard = new GameBoard(rows,columns,snakeLadderPositions);
+	public SnakeLadderGame(Integer rows,Integer columns, Set<String> playerNames,Map<Integer,Integer> snakeLadderPositionMap) {
+		gameBoard = new GameBoard(rows,columns,snakeLadderPositionMap);
 		intializePlayerPositions(playerNames);
 
 	}
@@ -101,10 +99,10 @@ public class SnakeLadderGame {
 			return currentPlayerPosition;
 		}
 		
-		SnakeLadderPosition snakeLadderPosition = gameBoard.checkSnakeOrLadderExistsOnCurrentPosition(newPlayerPosition);
+		Integer endPosition = gameBoard.checkSnakeOrLadderExistsOnCurrentPosition(newPlayerPosition);
 		
-		if (snakeLadderPosition != null) {
-			newPlayerPosition = snakeLadderPosition.getEndPoint();
+		if (endPosition != null) {
+			newPlayerPosition = endPosition;
 		}
 		
 		return newPlayerPosition;

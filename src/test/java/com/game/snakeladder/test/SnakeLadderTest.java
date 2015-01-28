@@ -1,8 +1,8 @@
 package com.game.snakeladder.test;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -11,7 +11,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.game.snakeladder.SnakeLadderGame;
-import com.game.snakeladder.model.SnakeLadderPosition;
 
 /**
  * This is JUNIT Test class to verify rules of moving player on the board.
@@ -24,7 +23,7 @@ public class SnakeLadderTest {
 	/**
 	 * Represents valid list of snake or ladder positions.
 	 */
-	private static List<SnakeLadderPosition> snakeLadderPositions = new ArrayList<SnakeLadderPosition>();
+	private static Map<Integer,Integer> snakeLadderPositionMap = new HashMap<Integer, Integer>() ;
 	
 	/**
 	 * Represents the player names.
@@ -36,30 +35,27 @@ public class SnakeLadderTest {
 	 */
 	@BeforeClass
 	public static void setGameBoard() {
+	
 		
-		snakeLadderPositions.add(new SnakeLadderPosition(17, 7));
-		snakeLadderPositions.add(new SnakeLadderPosition(54, 34));
-		snakeLadderPositions.add(new SnakeLadderPosition(62, 19));
-		snakeLadderPositions.add(new SnakeLadderPosition(64, 60));
-		snakeLadderPositions.add(new SnakeLadderPosition(87, 24));
-		snakeLadderPositions.add(new SnakeLadderPosition(93, 73));
-		snakeLadderPositions.add(new SnakeLadderPosition(95, 75));
+		snakeLadderPositionMap.put(17, 7);
+		snakeLadderPositionMap.put(54, 34);
+		snakeLadderPositionMap.put(62, 19);
+		snakeLadderPositionMap.put(64, 60);
+		snakeLadderPositionMap.put(87, 24);
+		snakeLadderPositionMap.put(93, 73);
+		snakeLadderPositionMap.put(95, 75);
 		
-		snakeLadderPositions.add(new SnakeLadderPosition(4,14));
-		snakeLadderPositions.add(new SnakeLadderPosition(9,31));
-		snakeLadderPositions.add(new SnakeLadderPosition(20,38));
-		snakeLadderPositions.add(new SnakeLadderPosition(28,84));
-		snakeLadderPositions.add(new SnakeLadderPosition(40,59));
-		snakeLadderPositions.add(new SnakeLadderPosition(51,67));
-		snakeLadderPositions.add(new SnakeLadderPosition(71,91));
+		snakeLadderPositionMap.put(4,14);
+		snakeLadderPositionMap.put(9,31);
+		snakeLadderPositionMap.put(20,38);
+		snakeLadderPositionMap.put(28,84);
+		snakeLadderPositionMap.put(40,59);
+		snakeLadderPositionMap.put(51,67);
+		snakeLadderPositionMap.put(71,91);
 		
 		playerNames.add("John");
 		playerNames.add("Smith");
 	}
-	
-	
-
-	
 	
 	/**
 	 * Represents test case for verifying Moving player without any snake and ladder
@@ -67,7 +63,7 @@ public class SnakeLadderTest {
 	@Test
 	public void testMovePlayerWithoutSnakeAndLadder() {
 		
-		SnakeLadderGame snakeLadderGame = new SnakeLadderGame(10, 10, playerNames, snakeLadderPositions);
+		SnakeLadderGame snakeLadderGame = new SnakeLadderGame(10, 10, playerNames, snakeLadderPositionMap);
 		final Integer  currentDiceValuue = 4;
 		final Integer currentPlayerPosition = 15;
 		final Integer expectedValue =  19;
@@ -83,7 +79,7 @@ public class SnakeLadderTest {
 	 */
 	@Test
 	public void testMovePlayerWithSnake() {
-		SnakeLadderGame snakeLadderGame = new SnakeLadderGame(10, 10, playerNames, snakeLadderPositions);
+		SnakeLadderGame snakeLadderGame = new SnakeLadderGame(10, 10, playerNames, snakeLadderPositionMap);
 		final Integer  currentDiceValuue = 2;
 		final Integer currentPlayerPosition = 15;
 		final Integer expectedValue =  7;
@@ -99,7 +95,7 @@ public class SnakeLadderTest {
 	 */
 	@Test
 	public void testMovePlayerWithLadder() {
-		SnakeLadderGame snakeLadderGame = new SnakeLadderGame(10, 10, playerNames, snakeLadderPositions);
+		SnakeLadderGame snakeLadderGame = new SnakeLadderGame(10, 10, playerNames, snakeLadderPositionMap);
 		final Integer  currentDiceValuue = 5;
 		final Integer currentPlayerPosition = 15;
 		final Integer expectedValue =  38;
@@ -116,7 +112,7 @@ public class SnakeLadderTest {
 	 */
 	@Test
 	public void testMovePlayerWithNextPositionGreaterThanWinningPosition() {
-		SnakeLadderGame snakeLadderGame = new SnakeLadderGame(10, 10, playerNames, snakeLadderPositions);
+		SnakeLadderGame snakeLadderGame = new SnakeLadderGame(10, 10, playerNames, snakeLadderPositionMap);
 		final Integer  currentDiceValuue = 5;
 		final Integer currentPlayerPosition = 99;
 		final Integer expectedValue =  99;
@@ -128,13 +124,13 @@ public class SnakeLadderTest {
 	}
 	
 	/**
-	 * Represents test case for verifying two or more than two players requried.
+	 * Represents test case for verifying two or more than two players required.
 	 */
 	@Test(expected=IllegalArgumentException.class)
 	public void testRequriedNumberOfPlayers() {
 		Set<String> players = new HashSet<String>();
 		players.add("John");
-		new SnakeLadderGame(10, 10, players, snakeLadderPositions);
+		new SnakeLadderGame(10, 10, players, snakeLadderPositionMap);
 	}
 	
 	

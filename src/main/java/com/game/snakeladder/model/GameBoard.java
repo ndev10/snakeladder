@@ -1,8 +1,6 @@
 package com.game.snakeladder.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +24,7 @@ public class GameBoard {
 	/**
 	 * Represents the  snake and ladder positions on the board.
 	 */
-	private Map<Integer,SnakeLadderPosition> snakeLadderPositionMap = new HashMap<Integer, SnakeLadderPosition>();
+	private Map<Integer,Integer> snakeLadderPositionMap ;
 	
 	/**
 	 * Constructs default game board.
@@ -40,15 +38,15 @@ public class GameBoard {
 	/**
 	 * Constructs Game board with configuration.
 	 * 
-	 * @param rows 				   Represents number of rows in game board.
-	 * @param columns 			   Represents number of columns in game board.
-	 * @param snakeLadderPositions Represents the snake and ladder position on the game board.
+	 * @param rows 				     Represents number of rows in game board.
+	 * @param columns 			     Represents number of columns in game board.
+	 * @param snakeLadderPositionMap Represents the snake and ladder position on the game board.
 	 */
 	
-	public GameBoard(final Integer rows, final Integer columns,List<SnakeLadderPosition> snakeLadderPositions) {
+	public GameBoard(final Integer rows, final Integer columns,Map<Integer,Integer> snakeLadderPositionMap) {
 		this.rows = rows;
 		this.columns = columns;
-		setSnakeAndLadderPosition(snakeLadderPositions);
+		this.snakeLadderPositionMap = snakeLadderPositionMap;
 	}
 	
 	/**
@@ -83,49 +81,34 @@ public class GameBoard {
 	 * 
 	 * @param currentPosition Represents the current position of the player.
 	 * 
-	 * @return SnakePosition if snake or ladder exits at current position it will return SnakePosition object otherwise it will return null.
+	 * @return Integer end point of snake and ladder.
 	 */
-	public SnakeLadderPosition checkSnakeOrLadderExistsOnCurrentPosition (Integer currentPosition) {
+	public Integer checkSnakeOrLadderExistsOnCurrentPosition (Integer currentPosition) {
 		return snakeLadderPositionMap.get(currentPosition);
 	}
 	
 	/**
-	 * This method is used put the snakes on the board.
-	 * 
-	 * @param snakeLadderPositions 	Represents list of the snake and ladder positions on the board
-	 */
-	private void setSnakeAndLadderPosition(List<SnakeLadderPosition> snakeLadderPositions) {
-		if (snakeLadderPositions != null && snakeLadderPositions.size() > 0) {
-			for (SnakeLadderPosition snakeLadderPosition : snakeLadderPositions) {
-				snakeLadderPositionMap.put(snakeLadderPosition.getStartPoint(), snakeLadderPosition);
-			}
-		}
-	}
-	
-	/**
-	 * This method is used to set the default snakes and ladder to the gameboard.
+	 * This method is used to set the default snakes and ladder to the game board.
 	 * 
 	 */
 	private void setDefaultSnakeAndLadderPositions() {
-		List<SnakeLadderPosition> snakeLadderPositions = new ArrayList<SnakeLadderPosition>();
+		snakeLadderPositionMap = new HashMap<Integer, Integer>();
 		
-		snakeLadderPositions.add(new SnakeLadderPosition(17, 7));
-		snakeLadderPositions.add(new SnakeLadderPosition(54, 34));
-		snakeLadderPositions.add(new SnakeLadderPosition(62, 19));
-		snakeLadderPositions.add(new SnakeLadderPosition(64, 60));
-		snakeLadderPositions.add(new SnakeLadderPosition(87, 24));
-		snakeLadderPositions.add(new SnakeLadderPosition(93, 73));
-		snakeLadderPositions.add(new SnakeLadderPosition(95, 75));
+		snakeLadderPositionMap.put(17, 7);
+		snakeLadderPositionMap.put(54, 34);
+		snakeLadderPositionMap.put(62, 19);
+		snakeLadderPositionMap.put(64, 60);
+		snakeLadderPositionMap.put(87, 24);
+		snakeLadderPositionMap.put(93, 73);
+		snakeLadderPositionMap.put(95, 75);
 		
-		snakeLadderPositions.add(new SnakeLadderPosition(4,14));
-		snakeLadderPositions.add(new SnakeLadderPosition(9,31));
-		snakeLadderPositions.add(new SnakeLadderPosition(20,38));
-		snakeLadderPositions.add(new SnakeLadderPosition(28,84));
-		snakeLadderPositions.add(new SnakeLadderPosition(40,59));
-		snakeLadderPositions.add(new SnakeLadderPosition(51,67));
-		snakeLadderPositions.add(new SnakeLadderPosition(71,91));
-		
-		setSnakeAndLadderPosition(snakeLadderPositions);
+		snakeLadderPositionMap.put(4,14);
+		snakeLadderPositionMap.put(9,31);
+		snakeLadderPositionMap.put(20,38);
+		snakeLadderPositionMap.put(28,84);
+		snakeLadderPositionMap.put(40,59);
+		snakeLadderPositionMap.put(51,67);
+		snakeLadderPositionMap.put(71,91);
 	}
 
 }
