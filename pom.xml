@@ -3,7 +3,7 @@
 	<groupId>com.game.snakeladder</groupId>
 	<artifactId>snakeladder</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Game</name>
+	<name>Game1</name>
 	<description>This is snake and ladders game	</description>
   
  
